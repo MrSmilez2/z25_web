@@ -1,13 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from shop.models import Product
 
 
-def hello_world(request):
-    return HttpResponse('Hello world!')
+def full_list(request):
+    all_products = Product.objects.all()
+    return render(request, 'all_products.html', {'all_products': all_products})
 
 
-def hello_world_template(request):
-    text = request.GET.get('text', 'world')
-    return render(request, 'hello_world.html', context={
-        'text': text
-    })

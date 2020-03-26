@@ -1,3 +1,7 @@
-from django.contrib import admin  # noqa
+from django.contrib import admin
 
-# Register your models here.
+from shop.models import Product, Producer, Comment
+
+admin.site.register(Product)
+admin.site.register(Producer)
+admin.site.register(Comment)
