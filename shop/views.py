@@ -44,7 +44,7 @@ def base_view(request):
 
 
 def categories_list_view(request):
-    categories = Category.object.all()
+    categories = Category.objects.all()
     return render(request, 'categories_list.html', context={
         'categories': categories
     })

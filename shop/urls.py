@@ -17,8 +17,8 @@ urlpatterns = [
     path('', base_view, name='products'),
     path('product/<str:pk>', product_details_view, name='product_details'),
     path('products', products_list_view, name='all_products'),
-    path('<slug:category>', products_list_view, name='products_by_category'),
     path('cat', categories_list_view, name='categories'),
+path('<slug:category>', products_list_view, name='products_by_category'),
 ]
 
 if settings.DEBUG:
