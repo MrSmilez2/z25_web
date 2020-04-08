@@ -22,10 +22,11 @@ urlpatterns = [
     path('', ProductsList.as_view(), name='products'),
     path('product/<str:pk>', ProductDetail.as_view(), name='product_details'),
     path('category/', category_root_view, name='categories_list'),
-    path('category/<slug:category>', ProductsList.as_view(), name='products_by_category'),
     path('signup', RegistrationView.as_view(), name='signup'),
     path('basket-edit', BasketEditView.as_view(), name='basket-edit'),
-    path('basket', BasketView.as_view(), name='basket')
+    path('basket', BasketView.as_view(), name='basket'),
+    path('order', BasketView.as_view(), name='order'),
+    path('category/<slug:category>', ProductsList.as_view(), name='products_by_category')
 ]
 
 if settings.DEBUG:

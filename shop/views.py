@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import Http404
+from django.http import Http404, request
 from django.urls import reverse, reverse_lazy
 from django.conf import settings
 from django.utils import timezone
@@ -185,14 +185,18 @@ class BasketEditView(LoginRequiredMixin, FormView):
                or reverse_lazy('products')
 
 
-class BasketView(LoginRequiredMixin, TemplateView):
-    template_name = 'basket.html'
+class BasketView(LoginRequiredMixin, TemplateView,):
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        with suppress(Basket.DoesNotExist):
-            context['basket'] = Basket.objects.filter(
-                user=self.request.user
-            ).prefetch_related('items').latest('updated_at')
-            context['total_price'] = sum(item.product.price * item.count for item in context['basket'].items.all())
-        return context
+    if request.resolver_match.url_name == 'order':
+        template_name = ['order.html']
+    else:
+        template_name = 'basket.html'
+
+        def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            with suppress(Basket.DoesNotExist):
+                context['basket'] = Basket.objects.filter(
+                    user=self.request.user
+                ).prefetch_related('items').latest('updated_at')
+                context['total_price'] = sum(item.product.price * item.count for item in context['basket'].items.all())
+            return context
